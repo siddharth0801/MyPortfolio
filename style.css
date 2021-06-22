@@ -4,7 +4,7 @@
 .site-header{
     width: 100%;
     height: 100vh;
-    background:linear-gradient(57deg, #F5F5F5, #F5F5F5);
+    background:linear-gradient(57deg, #d8d8d8, #F5F5F5);
     clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 0% 100%);
 }
 
@@ -51,7 +51,7 @@
 
 .jumbotron h2{
     font-family: 'Poppins', sans-serif;
-    color: #2CC791;
+    color: #432cc7;
     font-size: 70px;
     font-weight: 700;
     padding-top: 10px;
@@ -70,7 +70,7 @@
     font-size: 16px;
     background-color: #2CC791;
     border-radius: 50px;
-    border-color: #2CC791;
+    border-color: black;
 }
 
 .jumbotron .btn:hover{
@@ -84,7 +84,7 @@
 
 .jumbotron .btndownloadcv{
     background-color:transparent;
-    color: #2CC791;
+    color: black;
     margin-left: 20px;
 }
 
@@ -148,7 +148,7 @@
 .aboutme .body p{
     padding-top:5px;
     font-family: 'Poppins', sans-serif;
-    font-size: 15px;
+    font-size: 20px;
     color: #707070;
 }
 
@@ -253,7 +253,7 @@
 .site-footer .sitefooterhead h1{
     font-family: 'Poppins', sans-serif;
     color: #0A0A0A;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 100;
     padding-top:100px;
     padding-bottom:20px;
@@ -264,11 +264,12 @@
 .site-footer .sitefooterbody i{
     margin-left: 20px;
     margin-right: 20px;
-    font-size: 30px;
+    font-size: 31px;
     color: #707070;
 }
 
 .site-footer .sitefooterbody i:hover{
+    font-size: 32px;
     color: #29C08D;
     transition: 0.4s;
 }
