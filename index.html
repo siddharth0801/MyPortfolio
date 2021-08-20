@@ -31,10 +31,13 @@
                     <a class="nav-link" href="#home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#about">About</a>
+                    <a class="nav-link" href="#about">About me</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="#skills">Skills</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#prj">Projects</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Contact Me</a>
@@ -51,16 +54,15 @@
                     <div class="jumbotron">
                         <h1 class="display-4">Hello!</h1>
                         <h2 class="lead">I'm Siddharth Singh</h2>
-                        <h3>Student, Coder, Chess Player</h3>
+                        <!-- <h3>Student, Coder, Chess Player</h3> -->
+                        <div id="text-write"></div>
                         <ul style="padding-left: 0px;">
                             
                             <a class="btn btndownloadcv btn-lg" href="#" role="button">View CV</a>
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-5 text-center">
-
-                </div>
+                
             </div>
         </div>
     </header>
@@ -69,7 +71,7 @@
     <div id="about" class="container aboutme">
         <div class="row head text-center">
             <div class="col-lg-12">
-                <h2>About Me</h2>
+                <h1 style="font-style: italic;">About me</h1>
             </div>
         </div>
         <div class=" body row">
@@ -78,7 +80,13 @@
                 <h2>Siddharth Singh</h2>
                 <h3>Eat, Code, Sleep</h3>
                 <p>
-                    I am a dedicated and diligent individual, amplified with curiosity and discipline when it comes to the wonderful world of Computers. I share an avid interest in Competitive Programming, Data Structures & Algorithms. I'm inclined towards self-enhancement with a strong hold on communication skills. I strive tirelessly each day to make it a successful count.</p>
+                    I am a Coding Enthusiast with experience in Java, Data structures, and algorithms who loves to build efficient solutions
+                    for problems.</p>
+                <div class="contact_about">
+                    <a href="https://www.linkedin.com/in/siddharth-singh0801/" class="btn btn-info btn-sm " role="button" aria-pressed="true"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                    <a href="https://github.com/siddharth0801/" class="btn btn-dark btn-sm " role="button" aria-pressed="true"><i class="fa fa-github" aria-hidden="true"></i></a>      
+                    
+                </div>
                 
             </div>
             <div class="col-lg-6 text-left" style="padding-top:50px;">
@@ -87,16 +95,16 @@
                         <tr>
                             <th scope="col"><i class="fa fa-graduation-cap" aria-hidden="true"></i></th>
                             <th scope="col" class="year">
-                                <p>B.Tech(Computer Science)</p>
+                                <p style="font-weight: bold;">B.Tech(Computer Science)</p>
                                 <p>Shri G.S. Institute of Technology & Science, Indore</p>
-                                <p>C.G.P.A - 8.04/10</p>
-                                <p>08/2019-Present</p>
+                                <p>C.G.P.A. - 8.17/10</p>
+                                <p style="font-style: italic;">Aug, 2019-Present</p>
                             </th>
                         </tr>
                         <tr>
                             <th scope="col"><i class="fa fa-institution" aria-hidden="true"></i></th>
                             <th scope="col" class="year">
-                                <p>12<sup>th</sup></p>
+                                <p style="font-weight: bold;">12<sup>th</sup></p>
                                 <p>Jawaharlal Nehru School, Bhopal</p>
                                 <p>90.2%</p>
                                 
@@ -109,77 +117,118 @@
     </div>
 
     
-    <section id="skills" style="background-color: #2DC793;">
+    <section id="skills" style="background-color: #5d4cfc;">
         <div class="container skill">
             <div class="row text-center skillhead">
                 <div class="col-lg-12">
-                    <h2>My Skills</h2>
+                    <h1 style="font-style: italic;">My Skills</h1>
                     
                 </div>
             </div>
         </div>
     </section>
     <div class="container">
-        <div class="row">
-            <div class="col-lg-4">
-                <table class="table table-borderless skillbody">
-                    <tbody>
-                        <tr>
-                            <th scope="col">HTML & CSS</th>
-                            
-                        </tr>
-                        <tr>
-                            <th scope="col">C</th>
-                            
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="row pt-5">
+            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <img class="tech-icon" src="icons/java.png">
+                    <!-- <h3>Java(Core)</h3> -->
+                </div>
             </div>
-            <div class="col-lg-4">
-                <table class="table table-borderless skillbody">
-                    <tbody>
-                        <tr>
-                            <th scope="col">Java</th>
-                            
-                        </tr>
-                        <tr>
-                            <th scope="col">Python</th>
-                            
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <img class="tech-icon" src="icons/c.png">
+                    <!-- <h3>C </h3> -->
+                </div>
             </div>
-            <div class="col-lg-4">
-                <table class="table table-borderless skillbody">
-                    <tbody>
-                        <tr>
-                            <th scope="col">Data Structures using Java</th>
-                            
-                        </tr>
-                        <tr>
-                            <th scope="col">Javascript(Basics)</th>
-                            
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <img class="tech-icon" src="icons/python.png">
+                    <!-- <h3>Python</h3> -->
+                </div>
             </div>
-            <div class="col-lg-4">
-                <table class="table table-borderless skillbody">
-                    <tbody>
-                        <tr>
-                            <th scope="col">Object Oriented Programming</th>
-                            
-                        </tr>
-                        <tr>
-                            <th scope="col">Git & GitHub</th>
-                            
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <img class="tech-icon" src="icons/html-5.png">
+                    <!-- <h3>HTML</h3> -->
+                </div>
             </div>
+            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <img class="tech-icon" src="icons/css.png">
+                    <!-- <h3>CSS</h3> -->
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <img class="tech-icon" src="icons/java-script.png">
+                    <!-- <h3>JavaScript</h3> -->
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <img class="tech-icon" src="icons/git.png">
+                    <!-- <h3>VCS</h3> -->
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <img class="tech-icon" src="icons/linux.png">
+                    <!-- <h3>Linux</h3> -->
+                </div>
+            </div>
+
         </div>
     </div>
-    
+    <section class="projects" id="prj">
+        <div class="container-fluid">
+            <div class="text-center myprojects">
+                <h1>My Projects</h1>
+            </div>
+        </div>
+        <div class="container">
+            <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <img src="icons/OS.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">OS Simulation</h5>
+                          <p class="card-text">Simulation of processes in the Operating System, to check the performance of the
+                            system against sequential execution of processes.
+                            </p>
+                            
+                          <a href="https://github.com/siddharth0801/OS-Simulation" class="btn btn-outline-dark" target="blank">GitHub</a>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <img src="icons/sudoku.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">Sudoku Solver</h5>
+                          <p class="card-text">A command line solver for sudoku puzzles.</p>
+                          
+                          <a href="https://github.com/siddharth0801/SudokuSolver" class="btn btn-outline-dark" target="blank">GitHub</a>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <img src="icons/atm.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                          <h5 class="card-title">ATM</h5>
+                          <p class="card-text">Working of ATM( Automated teller machine ) implemented in
+                            Java using OOPS Concepts.</p>
+                            
+                          <a href="https://github.com/siddharth0801/ATM" class="btn btn-outline-dark" target="blank">GitHub</a>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </section>
 
     
 
@@ -209,7 +258,10 @@
     </footer>
 
     <!--Scripts-->
-    
+    <script src="index.js"></script>
+        <script>
+            typeWriter();
+        </script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
@@ -218,6 +270,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
+    
     
 </body>
 

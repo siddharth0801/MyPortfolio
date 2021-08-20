@@ -51,7 +51,7 @@
 
 .jumbotron h2{
     font-family: 'Poppins', sans-serif;
-    color: #432cc7;
+    color: #2713db;
     font-size: 70px;
     font-weight: 700;
     padding-top: 10px;
@@ -68,17 +68,17 @@
     color: #FFFFFF;
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
-    background-color: #2CC791;
+    background-color: #2713db;
     border-radius: 50px;
     border-color: black;
 }
 
 .jumbotron .btn:hover{
-    color: #2CC791;
+    color: #2713db;
     font-family: 'Poppins', sans-serif;
     background-color:transparent;
     border-radius: 50px;
-    border-color: #2CC791;
+    border-color: #2713db;
     transition: 0.6s;
 }
 
@@ -89,12 +89,55 @@
 }
 
 .jumbotron .btndownloadcv:hover{
-    background-color:#2CC791;
+    background-color:#2713db;
     color: #FFFFFF;
     margin-left: 20px;
     transition: 0.6s;
 }
+#text-write{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: italic;
+    /* font-weight: bold; */
+    color: darkslateblue;
+    font-size: 31px;
+    /* padding-top: 3px; */
+    padding: 1%;
+}
+/*Projects CSS */
 
+.projects{
+    font-family: 'Times New Roman', Times, serif;
+}
+.myprojects h1{
+    font-family:'Poppins', sans-serif;
+    color: #0A0A0A;
+    font-size: 30px;
+    font-style: italic;
+    font-weight: 900;
+    padding-top:100px;
+    padding-bottom:50px;
+}
+
+/*  */
+.tech-icon{
+    border-radius: 8px;
+    width: 20%;
+    height: auto;
+}
+.icon-box{
+    display: flex;
+    align-items:center;
+}
+/* .tech-icon:hover{
+    box-shadow: 1px 1px 1px 1px grey;
+} */
+.col-lg-3{
+    margin-bottom: 50px;
+}
+.pt-5, .py-5 {
+    padding-top: 3rem!important;
+    
+}
 @media(max-width:992px){
     .navbar{
         background-color: #FFFFFF;
@@ -114,12 +157,15 @@
     .jumbotron h2{
         font-size: 50px;
     }
+    #text-write{
+        font-size: 20px;
+    }
 }
 
-.aboutme .head h2{
+.aboutme .head h1{
     font-family:'Poppins', sans-serif;
     color: #0A0A0A;
-    font-size: 26px;
+    font-size: 30px;
     font-weight: 900;
     padding-top:100px;
     padding-bottom:100px;
@@ -139,9 +185,9 @@
 
 .aboutme .body h3{
     font-family:'Poppins', sans-serif;
-    color: #2CC791;
+    color: #2713db;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: bold;
     padding-bottom: 4px;
 }
 
@@ -149,31 +195,21 @@
     padding-top:5px;
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
-    color: #707070;
+    color: #585858;
 }
 
 .aboutme .body td{
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
-    color:#707070;
+    color:#585858;
 }
 
 .aboutme .body span{
-    color:#2CC791;
-}
-
-.aboutme .body .btn{
-    font-family: 'Poppins', sans-serif;
-    border-color: #2CC791;
-    border-radius: 50px;
-    color: #FFFFFF;
-    font-size: 13pt;
-    background-color:#2CC791 ;
-    width: 100px;
+    color:#2713db;
 }
 
 .aboutme .body .education i{
-    color: #2CC791;
+    color: #2713db;
     font-size: 40px;
     padding-top:50px;
     padding-bottom: 20px;
@@ -213,35 +249,15 @@
     padding-bottom: 100px;
 }
 
-.skillhead h2{
+.skillhead h1{
     font-family: 'Poppins', sans-serif;
     color: #FFFFFF;
-    font-size: 26px;
+    font-size: 30px;
     font-weight: 900;
     padding-top:100px;
     padding-bottom:20px;
 }
 
-.skillhead p{
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    color: #FFFEFF;
-}
-
-.skillbody i{
-    color:#000000;
-    font-size:40px;
-    padding-top:80px;
-    font-weight: 100;
-}
-
-.skillbody p{
-    font-family: 'Poppins', sans-serif;
-    color: #707070;
-    font-size: 15px;
-    font-weight: 100;
-    padding-top:80px;
-}
 
 .site-footer{
     width: 100%;
@@ -269,7 +285,7 @@
 }
 
 .site-footer .sitefooterbody i:hover{
-    font-size: 32px;
+    font-size: 31px;
     color: #29C08D;
     transition: 0.4s;
 }
