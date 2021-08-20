@@ -1,6 +1,6 @@
 var i = 0;
 var txt = 'Student, Coder, Chess Player';
-var speed = 120;
+var speed = 110;
 
 function typeWriter() {
   if (i < txt.length) {
