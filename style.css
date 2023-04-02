@@ -108,13 +108,14 @@
 .projects{
     font-family: 'Times New Roman', Times, serif;
 }
+
 .myprojects h1{
     font-family:'Poppins', sans-serif;
     color: #0A0A0A;
     font-size: 30px;
     font-weight: 900;
     padding-top:100px;
-    padding-bottom:50px;
+    padding-bottom:100px;
 }
 
 /*  */
@@ -137,6 +138,46 @@
     padding-top: 3rem!important;
     
 }
+
+
+/* Form CSS */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+
 @media(max-width:992px){
     .navbar{
         background-color: #FFFFFF;
@@ -170,9 +211,9 @@
     padding-bottom:100px;
 }
 
-.aboutme .body{
+/* .aboutme .body{
     padding-bottom: 100px;
-}
+} */
 
 .aboutme .body h2{
     font-family:'Poppins', sans-serif;
@@ -244,17 +285,17 @@
     }
 }
 
-.skill {
+/* .skill {
     padding-bottom: 100px;
-}
+} */
 
 .skillhead h1{
-    font-family: 'Poppins', sans-serif;
-    color: black;
+    font-family:'Poppins', sans-serif;
+    color: #0A0A0A;
     font-size: 30px;
     font-weight: 900;
-    padding-top:20px;
-    padding-bottom:20px;
+    padding-top:100px;
+    padding-bottom:100px;
 }
 
 
@@ -297,6 +338,9 @@
 }
 
 @media (max-width: 576px){
+    .modal-content {
+        margin: 30% auto;
+      }
     .site-footer .sitefooterbody i{
         margin-left: 11px;
         margin-right: 11px;
@@ -309,3 +353,4 @@
         min-height: 40vh;
     }
 }
+

@@ -58,6 +58,7 @@
                         <ul style="padding-left: 0px;">
                             
                             <a class="btn btndownloadcv btn-lg" href="#" role="button">View CV</a>
+                            <button class="btn btn-lg" id="contact-btn">Get in Touch</button>
                         </ul>
                     </div>
                 </div>
@@ -244,6 +245,29 @@
         </div>
     </section>
 
+    <div id="contact-modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <!-- Formspree is used for handling the form(https://formspree.io/forms/mdovwwka/submissions) -->
+          <form id="contact-form" action="https://formspree.io/f/mdovwwka" method="POST">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Your Email</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Send Message</button>
+          </form>
+        </div>
+      </div>
+      
+
     
 
     <!--Footer-->
@@ -273,6 +297,7 @@
 
     <!--Scripts-->
     <script src="index.js"></script>
+    <script src="script.js"></script>
         <script>
             typeWriter();
         </script>
