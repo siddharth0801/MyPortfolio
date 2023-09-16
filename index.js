@@ -1,5 +1,5 @@
 var i = 0;
-var txt = 'Student, Coder, Chess Player';
+var txt = 'Software Engineer, Explorer, Chess Player';
 var speed = 110;
 
 function typeWriter() {
