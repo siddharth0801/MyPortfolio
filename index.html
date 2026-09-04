@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <title>Siddharth Singh | Portfolio</title>
@@ -56,11 +55,10 @@
                         <h2 class="lead">I'm Siddharth Singh</h2>
                         <!-- <h3>Student, Coder, Chess Player</h3> -->
                         <div id="text-write"></div>
-                        <ul style="padding-left: 0px;">
-
+                        <div class="hero-actions">
                             <a class="btn btndownloadcv btn-lg" href="#" role="button">View CV</a>
                             <button class="btn btn-lg" id="contact-btn">Get in Touch</button>
-                        </ul>
+                        </div>
                     </div>
                 </div>
 
@@ -85,11 +83,12 @@
                     and ERP systems.
                     My dedication to staying updated with industry trends fuels my continuous learning journey.</p>
                 <div class="contact_about">
-                    <a href="https://www.linkedin.com/in/siddharth-singh0801/" class="btn btn-info btn-sm "
-                        role="button" aria-pressed="true" target="_blank"><i class="fa fa-linkedin"
-                            aria-hidden="true"></i></a>
+                    <a href="https://www.linkedin.com/in/siddharth0801/" class="btn btn-info btn-sm "
+                        role="button" target="_blank" rel="noopener" aria-label="LinkedIn"><i
+                            class="fa fa-linkedin" aria-hidden="true"></i></a>
                     <a href="https://github.com/siddharth0801/" class="btn btn-dark btn-sm " role="button"
-                        aria-pressed="true" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a>
+                        target="_blank" rel="noopener" aria-label="GitHub"><i class="fa fa-github"
+                            aria-hidden="true"></i></a>
 
                 </div>
 
@@ -207,7 +206,6 @@
                 <h1>My Projects</h1>
             </div>
         </div>
-        <div class="container">
             <div class="container">
                 <div class="row">
                     <div class="col-sm">
@@ -219,7 +217,7 @@
                                     devices to make indoor navigation seamless and interactive.</p>
 
                                 <a href="https://drive.google.com/file/d/1IkaxlK0f_oU6EgV6QQUT67MkqTu1dAwv/view?usp=drive_link" class="btn btn-outline-dark"
-                                    target="blank">Demo</a>
+                                    target="_blank" rel="noopener">Demo</a>
                             </div>
                         </div>
                     </div>
@@ -234,7 +232,7 @@
                                 </p>
 
                                 <a href="https://github.com/siddharth0801/OS-Simulation" class="btn btn-outline-dark"
-                                    target="blank">GitHub</a>
+                                    target="_blank" rel="noopener">GitHub</a>
                             </div>
                         </div>
                     </div>
@@ -246,19 +244,17 @@
                                 <p class="card-text">A command line solver for sudoku puzzles.</p>
 
                                 <a href="https://github.com/siddharth0801/SudokuSolver" class="btn btn-outline-dark"
-                                    target="blank">GitHub</a>
+                                    target="_blank" rel="noopener">GitHub</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
-    <div id="contact-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <!-- Formspree is used for handling the form(https://formspree.io/forms/mdovwwka/submissions) -->
+    <div id="contact-modal" class="contact-modal">
+        <div class="contact-modal__panel">
+            <span class="contact-modal__close">&times;</span>
             <form id="contact-form" action="https://formspree.io/f/mdovwwka" method="POST">
                 <div class="form-group">
                     <label for="name">Your Name</label>
@@ -281,7 +277,7 @@
 
 
     <!--Footer-->
-    <footer class="site-footer" id="contact">'
+    <footer class="site-footer" id="contact">
         <div class="container">
             <div class="row text-center sitefooterhead">
                 <div class="col-lg-12">
@@ -290,13 +286,13 @@
             </div>
             <div class="row text-center sitefooterbody">
                 <div class="col-lg-12">
-                    <a href="https://www.facebook.com/people/Siddharth-Singh/100041000264340/" target="blank"><i
+                    <a href="https://www.facebook.com/people/Siddharth-Singh/100041000264340/" target="_blank" rel="noopener" aria-label="Facebook"><i
                             class="fa fa-facebook"></i></a>
-                    <a href="https://www.instagram.com/singh.siddharth01/" target="blank"><i class="fa fa-instagram"></i></a>
+                    <a href="https://www.instagram.com/singh.siddharth01/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa fa-instagram"></i></a>
 
-                    <a href="https://www.linkedin.com/in/siddharth0801/" target="blank"><i
+                    <a href="https://www.linkedin.com/in/siddharth0801/" target="_blank" rel="noopener" aria-label="LinkedIn"><i
                             class="fa fa-linkedin"></i></a>
-                    <a href="https://github.com/siddharth0801" target="blank"><i class="fa fa-github"></i></a>
+                    <a href="https://github.com/siddharth0801" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa fa-github"></i></a>
 
                 </div>
                 <div class="col-lg-12">
@@ -316,9 +312,6 @@
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossorigin="anonymous"></script>
 
     <script type="text/javascript">

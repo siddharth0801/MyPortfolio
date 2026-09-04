@@ -1,6 +1,6 @@
 const modal = document.getElementById("contact-modal");
 const btn = document.getElementById("contact-btn");
-const span = document.getElementsByClassName("close")[0];
+const span = document.querySelector(".contact-modal__close");
 const form = document.getElementById("contact-form");
 
 btn.addEventListener("click", function () {
