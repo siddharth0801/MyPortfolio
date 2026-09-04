@@ -9,3 +9,7 @@ function typeWriter() {
     setTimeout(typeWriter, speed);
   }
 }
+
+// Previously called from an inline <script> in index.html. This file is
+// deferred, so the DOM is parsed by the time it runs.
+typeWriter();
