@@ -60,7 +60,8 @@
                         <div id="text-write"></div>
                         <div class="hero-actions">
                             <a class="btn btndownloadcv btn-lg" href="#" role="button">View CV</a>
-                            <button class="btn btn-lg" id="contact-btn">Get in Touch</button>
+                            <button class="btn btn-lg" id="contact-btn" data-bs-toggle="modal"
+                                data-bs-target="#contact-modal">Get in Touch</button>
                         </div>
                     </div>
                 </div>
@@ -255,24 +256,42 @@
             </div>
     </section>
 
-    <div id="contact-modal" class="contact-modal">
-        <div class="contact-modal__panel">
-            <span class="contact-modal__close">&times;</span>
-            <form id="contact-form" action="https://formspree.io/f/mdovwwka" method="POST">
-                <div class="mb-3">
-                    <label for="name" class="form-label">Your Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
+    <div class="modal fade" id="contact-modal" tabindex="-1"
+        aria-labelledby="contact-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered contact-modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="contact-modal-title">Get in Touch</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Your Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
+                <div class="modal-body">
+                    <!-- action/method are kept so the form still works as a plain POST
+                         if JavaScript fails; contact.js intercepts the submit. -->
+                    <form id="contact-form" action="https://formspree.io/f/mdovwwka" method="POST">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Your Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Your Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5"
+                                required></textarea>
+                        </div>
+                        <!-- Formspree honeypot: bots fill it, people never see it. -->
+                        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+                            aria-hidden="true" class="visually-hidden">
+                        <button type="submit" class="btn btn-success" id="contact-submit">Send
+                            Message</button>
+                        <p id="form-status" class="form-status" role="status" aria-live="polite"
+                            hidden></p>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label for="message" class="form-label">Message</label>
-                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-success">Send Message</button>
-            </form>
+            </div>
         </div>
     </div>
 
