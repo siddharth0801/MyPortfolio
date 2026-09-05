@@ -2,11 +2,15 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
+    <!-- Fallbacks for crawlers that do not run scripts; js/render.js
+         overwrites both from data/content.js. -->
+    <title>Siddharth Singh | Portfolio</title>
+    <meta name="description"
+        content="Portfolio of Siddharth Singh, a software engineer working in Java, Python and Spring.">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossorigin="anonymous">
@@ -14,61 +18,52 @@
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/all.min.css"
         integrity="sha384-nRgPTkuX86pH8yjPJUAFuASXQSSl2/bBUiNV47vSYpKFxHJhbcrGnmlYpYJMeD7a"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css">
-
-    <title>Siddharth Singh | Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
 </head>
 
 <body>
+    <!-- Shown only if data/content.js fails to load or parse. -->
+    <div id="render-error" class="alert alert-warning m-3" role="alert" hidden>
+        Content failed to load. Please refresh, or reach me on
+        <a href="https://www.linkedin.com/in/siddharth0801/">LinkedIn</a>.
+    </div>
+
     <!--Nav Bar-->
     <nav class="navbar navbar-expand-lg fixed-top">
-        <a class="navbar-brand" href=".">sid.</a>
+        <a class="navbar-brand" id="nav-brand" href=".">sid.</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
             aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#home">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#about">About me</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#skills">Skills</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#prj">Projects</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact">Contact Me</a>
-                </li>
-            </ul>
+            <ul class="navbar-nav ms-auto" id="nav-links"></ul>
         </div>
     </nav>
     <!--Nav Bar End-->
+
     <header id="home" class="site-header">
-        <!--home Start-->
         <div class="container-fluid" style="background-color:transparent;">
             <div class="row">
                 <div class="col-lg-7">
-                    <div class="hero">
-                        <h1>Hello!</h1>
-                        <h2>I'm Siddharth Singh</h2>
-                        <div id="text-write"></div>
-                        <div class="hero-actions">
-                            <a class="btn btndownloadcv btn-lg" href="#" role="button">View CV</a>
-                            <button class="btn btn-lg" id="contact-btn" data-bs-toggle="modal"
-                                data-bs-target="#contact-modal">Get in Touch</button>
-                        </div>
-                    </div>
+                    <div class="hero" id="hero"></div>
                 </div>
-
             </div>
         </div>
     </header>
+
+    <noscript>
+        <div class="container my-5">
+            <h1>Siddharth Singh</h1>
+            <p>Software Engineer, Explorer, Chess Player. This site needs JavaScript
+                for the full experience.</p>
+            <p>
+                <a href="https://www.linkedin.com/in/siddharth0801/">LinkedIn</a> &middot;
+                <a href="https://github.com/siddharth0801">GitHub</a>
+            </p>
+        </div>
+    </noscript>
 
     <!--About Me-->
     <div id="about" class="container aboutme">
@@ -77,185 +72,42 @@
                 <h1 class="section-heading">About</h1>
             </div>
         </div>
-        <div class=" body row">
-            <div class="col-lg-6">
-
-                <h2>Siddharth Singh</h2>
-                <h3>Eat, Sleep, Code <i class="fa-solid fa-repeat" aria-hidden="true"></i></h3>
-                <p>I'm a passionate software developer with a strong foundation in Java and Python. Proficient at
-                    solving real-world problems, I've contributed to various projects, including web apps, Android apps,
-                    and ERP systems.
-                    My dedication to staying updated with industry trends fuels my continuous learning journey.</p>
-                <div class="contact_about">
-                    <a href="https://www.linkedin.com/in/siddharth0801/" class="btn btn-info btn-sm text-white"
-                        role="button" target="_blank" rel="noopener" aria-label="LinkedIn"><i
-                            class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
-                    <a href="https://github.com/siddharth0801/" class="btn btn-dark btn-sm " role="button"
-                        target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"
-                            aria-hidden="true"></i></a>
-
-                </div>
-
-            </div>
+        <div class="body row">
+            <div class="col-lg-6" id="about-bio"></div>
             <div class="col-lg-6 text-start" style="padding-top:50px;">
-                <table class="table table-borderless education">
-                    <tbody>
-                        <tr>
-                            <th scope="col"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></th>
-                            <th scope="col" class="year">
-                                <p style="font-weight: bold;">B.Tech - Computer Science</p>
-                                <p>Shri G.S. Institute of Technology & Science, Indore</p>
-                                <p>C.G.P.A. - 8.5/10</p>
-                                <p>Aug, 2019-Aug, 2023</p>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th scope="col"><i class="fa-solid fa-building-columns" aria-hidden="true"></i></th>
-                            <th scope="col" class="year">
-                                <p style="font-weight: bold;">12<sup>th</sup></p>
-                                <p>Jawaharlal Nehru School, Bhopal</p>
-                                <p>90.2%</p>
-                            </th>
-                        </tr>
-                    </tbody>
-                </table>
+                <ul class="education list-unstyled" id="education-list"></ul>
             </div>
         </div>
     </div>
 
-
+    <!--Skills-->
     <section id="skills">
         <div class="container skill">
             <div class="row text-center skillhead">
                 <div class="col-lg-12">
                     <h1 class="section-heading">My Skills</h1>
-
                 </div>
             </div>
         </div>
     </section>
-    <div class="container table-responsive">
-        <div class="row">
-            <div class="col-md-6 mx-auto">
-                <table class="table table-borderless">
-                    <tbody>
-                        <tr>
-                            <td>
-                                <img class="tech-icon" src="icons/java.png">
-                                <!-- <h3>Java(Core)</h3> -->
-                            </td>
-                            <td>
-                                <img class="tech-icon" src="icons/cprog.png">
-                                <!-- <h3>C </h3> -->
-                            </td>
-                            <td>
-                                <img class="tech-icon" src="icons/python.png">
-                                <!-- <h3>Python</h3> -->
-                            </td>
-                            <td>
-                                <img class="tech-icon" src="icons/html-5.png">
-                                <!-- <h3>HTML</h3> -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img class="tech-icon" src="icons/css.png">
-                                <!-- <h3>CSS</h3> -->
-                            </td>
-                            <td>
-                                <img class="tech-icon" src="icons/java-script.png">
-                                <!-- <h3>JavaScript</h3> -->
-                            </td>
-                            <td>
-                                <img class="tech-icon" src="icons/git.png">
-                                <!-- <h3>VCS</h3> -->
-                            </td>
-                            <td>
-                                <img class="tech-icon" src="icons/linux.png">
-                                <!-- <h3>Linux</h3> -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img class="tech-icon" src="icons/sql.jpg">
-                                <!-- <h3>Linux</h3> -->
-                            </td>
-                            <td>
-                                <img class="tech-icon" src="icons/mysql.png">
-                                <!-- <h3>Linux</h3> -->
-                            </td>
-                            <td>
-                                <img class="tech-icon" src="icons/postgres.png">
-                                <!-- <h3>Linux</h3> -->
-                            </td>
-                            <td>
-                                <img class="tech-icon" src="icons/spring.png">
-                                <!-- <h3>Linux</h3> -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <img class="tech-icon" src="icons/aws.png">
-                                <!-- <h3>Linux</h3> -->
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+    <div class="container">
+        <ul class="skill-grid" id="skills-grid"></ul>
     </div>
+
+    <!--Projects-->
     <section class="projects" id="prj">
         <div class="container-fluid">
             <div class="text-center myprojects">
                 <h1 class="section-heading">My Projects</h1>
             </div>
         </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm">
-                        <div class="card" style="width: 15rem;">
-                            <img src="icons/AR-Navigation-3-scaled.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">MetaPath</h5>
-                                <p class="card-text">MetaPath is an AR-based indoor navigation system for handheld
-                                    devices to make indoor navigation seamless and interactive.</p>
-
-                                <a href="https://drive.google.com/file/d/1IkaxlK0f_oU6EgV6QQUT67MkqTu1dAwv/view?usp=drive_link" class="btn btn-outline-dark"
-                                    target="_blank" rel="noopener">Demo</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm">
-                        <div class="card" style="width: 15rem;">
-                            <img src="icons/OS.jpg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">OS Simulation</h5>
-                                <p class="card-text">Simulation of processes in the Operating System, to check the
-                                    performance of the
-                                    system against sequential execution of processes.
-                                </p>
-
-                                <a href="https://github.com/siddharth0801/OS-Simulation" class="btn btn-outline-dark"
-                                    target="_blank" rel="noopener">GitHub</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm">
-                        <div class="card" style="width: 15rem;">
-                            <img src="icons/sudoku.png" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Sudoku Solver</h5>
-                                <p class="card-text">A command line solver for sudoku puzzles.</p>
-
-                                <a href="https://github.com/siddharth0801/SudokuSolver" class="btn btn-outline-dark"
-                                    target="_blank" rel="noopener">GitHub</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 justify-content-center"
+                id="projects-grid"></div>
+        </div>
     </section>
 
+    <!--Contact-->
     <div class="modal fade" id="contact-modal" tabindex="-1"
         aria-labelledby="contact-modal-title" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered contact-modal-dialog">
@@ -265,38 +117,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <!-- action/method are kept so the form still works as a plain POST
-                         if JavaScript fails; contact.js intercepts the submit. -->
-                    <form id="contact-form" action="https://formspree.io/f/mdovwwka" method="POST">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Your Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Your Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" name="message" rows="5"
-                                required></textarea>
-                        </div>
-                        <!-- Formspree honeypot: bots fill it, people never see it. -->
-                        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
-                            aria-hidden="true" class="visually-hidden">
-                        <button type="submit" class="btn btn-success" id="contact-submit">Send
-                            Message</button>
-                        <p id="form-status" class="form-status" role="status" aria-live="polite"
-                            hidden></p>
-                    </form>
-                </div>
+                <div class="modal-body" id="contact-form-mount"></div>
             </div>
         </div>
     </div>
-
-
-
 
     <!--Footer-->
     <footer class="site-footer" id="contact">
@@ -307,31 +131,24 @@
                 </div>
             </div>
             <div class="row text-center sitefooterbody">
-                <div class="col-lg-12">
-                    <a href="https://www.facebook.com/people/Siddharth-Singh/100041000264340/" target="_blank" rel="noopener" aria-label="Facebook"><i
-                            class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
-                    <a href="https://www.instagram.com/singh.siddharth01/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
-
-                    <a href="https://www.linkedin.com/in/siddharth0801/" target="_blank" rel="noopener" aria-label="LinkedIn"><i
-                            class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
-                    <a href="https://github.com/siddharth0801" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
-
-                </div>
-                <div class="col-lg-12">
-                    <p>Copyright © 2023 Siddharth Singh. All rights reserved</p>
-                </div>
+                <div class="col-lg-12" id="footer-socials"></div>
+                <div class="col-lg-12" id="footer-copyright"></div>
             </div>
         </div>
     </footer>
 
     <!--Scripts-->
-    <!-- defer preserves document order, so `bootstrap` is defined before our own
-         scripts run, and every script runs after the DOM is parsed. -->
+    <!-- defer preserves document order, so PORTFOLIO and `bootstrap` are both
+         defined before main.js runs, and every script runs after the DOM is
+         parsed. No DOMContentLoaded wrapper needed. -->
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script defer src="index.js"></script>
-    <script defer src="script.js"></script>
+    <script defer src="data/content.js"></script>
+    <script defer src="js/render.js"></script>
+    <script defer src="js/typewriter.js"></script>
+    <script defer src="js/contact.js"></script>
+    <script defer src="js/main.js"></script>
 </body>
 
 </html>
