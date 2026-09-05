@@ -1,0 +1,23 @@
+name: check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  content:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # No install step: the site has no dependencies and neither does the check.
+      - name: Syntax-check the scripts
+        run: |
+          node --check data/content.js
+          for f in js/*.js; do node --check "$f"; done
+
+      - name: Validate content and asset paths
+        run: node scripts/check-content.mjs
