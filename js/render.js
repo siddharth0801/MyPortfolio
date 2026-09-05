@@ -74,6 +74,7 @@ window.Render = (function (window, document) {
   function renderHero() {
     var p = P().profile;
     var cv = p.cv || {};
+    var contact = p.contact || {};
     mount(
       "hero",
       "<h1>" + esc(p.greeting) + "</h1>" +
@@ -86,7 +87,8 @@ window.Render = (function (window, document) {
             'target="_blank" rel="noopener">' + esc(cv.label || "View CV") + "</a>"
           : "") +
         '<button class="btn btn-lg" id="contact-btn" data-bs-toggle="modal" ' +
-        'data-bs-target="#contact-modal">' + esc(p.contact.label) + "</button>" +
+        'data-bs-target="#contact-modal">' + esc(contact.label || "Get in Touch") +
+        "</button>" +
         "</div>"
     );
   }

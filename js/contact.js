@@ -4,7 +4,15 @@
 window.Contact = (function () {
   "use strict";
 
-  function init(cfg) {
+  var DEFAULTS = {
+    sendingLabel: "Sending…",
+    successMessage: "Thanks! Your message has been sent.",
+    errorMessage: "Something went wrong. Please try again, or email me directly.",
+    networkErrorMessage: "Network error — check your connection and try again.",
+  };
+
+  function init(config) {
+    var cfg = Object.assign({}, DEFAULTS, config || {});
     var form = document.getElementById("contact-form");
     var statusEl = document.getElementById("form-status");
     var submitBtn = document.getElementById("contact-submit");

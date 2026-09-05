@@ -2,6 +2,13 @@
 (function () {
   "use strict";
 
+  function showBanner(message) {
+    var banner = document.getElementById("render-error");
+    if (!banner) return;
+    if (message) banner.textContent = message;
+    banner.hidden = false;
+  }
+
   function initNavCollapse() {
     var collapse = document.getElementById("navbarNav");
     if (!collapse || !window.bootstrap) return;
@@ -22,7 +29,12 @@
       throw new Error("PORTFOLIO is undefined — data/content.js failed to load or has a syntax error.");
     }
 
-    window.Render.all();
+    var failed = window.Render.all();
+    if (failed.length) {
+      // A section threw. The rest of the page is fine, but say so rather
+      // than leaving a silently empty region.
+      showBanner("Some content failed to load: " + failed.join(", ") + ".");
+    }
 
     var profile = window.PORTFOLIO.profile || {};
     var typeEl = document.getElementById("text-write");
@@ -39,7 +51,6 @@
     boot();
   } catch (err) {
     console.error("[portfolio] render failed:", err);
-    var banner = document.getElementById("render-error");
-    if (banner) banner.hidden = false;
+    showBanner(null); // keep the markup's default message and its contact link
   }
 })();

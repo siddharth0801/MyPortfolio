@@ -37,8 +37,13 @@ if (!P) {
   process.exit(1);
 }
 
-for (const key of ["site", "profile", "education", "skills", "projects", "socials", "contact"]) {
-  if (!P[key]) fail(`missing top-level key: ${key}`);
+const REQUIRED = ["site", "profile", "education", "skills", "projects", "socials", "contact"];
+const missing = REQUIRED.filter((key) => !P[key]);
+if (missing.length) {
+  // Stop here: the checks below index into these keys, and a TypeError
+  // stack trace would hide the report we just built.
+  console.error(`data/content.js: missing top-level key(s): ${missing.join(", ")}`);
+  process.exit(1);
 }
 
 /* Case-sensitive existence check, one directory listing per directory. */
