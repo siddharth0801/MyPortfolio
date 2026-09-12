@@ -12,7 +12,11 @@
   const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const monthLabel = (ym) => { const [y, m] = ym.split('-'); return `${MONTH_NAMES[+m - 1]} ${y}`; };
   const dateLabel = (iso) => { const [y, m, d] = iso.split('-'); return `${+d} ${MONTH_NAMES[+m - 1]} ${y}`; };
-  const APP_VERSION = '1.0';
+  const APP_VERSION = '1.1';
+  // Bumping RULES_VERSION re-categorises every rule-tagged row on next load (user tags are never touched).
+  const RULES_VERSION = 2;
+  // Personal payee tags seeded for the account owner; PNB truncates names to 8 characters.
+  const SEEDED_TAGS = { amudha: 'Rent' };
 
   // ------------------------------------------------------------ store
   const KEY_TX = 'et:v1:txns';
@@ -33,6 +37,22 @@
       state.txns = Array.isArray(t) ? t : [];
       state.meta = m ? Object.assign(defaultMeta(), m, { settings: Object.assign(defaultMeta().settings, m.settings || {}) }) : defaultMeta();
     } catch (e) { console.warn('storage unavailable', e); }
+    migrate();
+  }
+  function migrate() {
+    let changed = false;
+    for (const [k, v] of Object.entries(SEEDED_TAGS)) if (!state.meta.payeeCategoryMap[k]) { state.meta.payeeCategoryMap[k] = v; changed = true; }
+    if ((state.meta.rulesVersion || 0) < RULES_VERSION) {
+      for (const t of state.txns) {
+        if (t.source === 'manual') continue;
+        const cat = Parsers.categorize(t, state.meta.payeeCategoryMap, state.meta.settings);
+        if (t.categorySource !== 'user' || cat.source === 'user') { t.category = cat.category; t.categorySource = cat.source; }
+        t.channel = Parsers.detectChannel(t.vpa, t.type);
+      }
+      state.meta.rulesVersion = RULES_VERSION;
+      changed = true;
+    }
+    if (changed) save();
   }
   let saveTimer = null;
   function save() {

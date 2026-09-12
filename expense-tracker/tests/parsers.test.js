@@ -169,6 +169,8 @@ test('categorize applies keyword rules, type rules, self-transfer detection and 
   assert.equal(cat(tx({ payee: 'Blinkit' })), 'Groceries & Essentials');
   assert.equal(cat(tx({ payee: 'CRED Clu', vpa: 'cred.club@axisb' })), 'Credit Card Bill');
   assert.equal(cat(tx({ payee: 'CRED', vpa: 'cred.utility@ax' })), 'Bills & Subscriptions');
+  assert.equal(cat(tx({ payee: 'POPTECH', vpa: 'poptechgrowthpr' })), 'Credit Card Bill'); // card bill paid through POP UPI
+  assert.equal(P.detectChannel('poptechgrowthpr', 'UPI'), 'POP');
   assert.equal(cat(tx({ payee: 'Policyba', vpa: 'paytm-8735485@p' })), 'Insurance');
   assert.equal(cat(tx({ payee: 'MUTUAL F', vpa: 'groww.iccl1.brk' })), 'Investments');
   assert.equal(cat(tx({ payee: 'GROWW INVEST TECH PR', type: 'AUTOPAY', narration: 'ACH/GROWW INVEST TECH PR/32432' })), 'Investments');

@@ -267,6 +267,7 @@
     ['BharatPe', /bharatpe|^bpe\./i],
     ['Pine Labs', /^pinelabs|^plutus/i],
     ['CRED', /^cred\./i],
+    ['POP', /^poptech|^pop\./i],
     ['Amazon Pay', /^amzn|amazonpay/i],
     ['Vyapar', /^vyapar/i],
     ['Payment gateway', /^razorpay|^rzp|^pg\.|^payu|^billdesk|^ccavenue|^cashfree|^cf\.|^easebuzz|^juspay|^instamojo|^mobikwik|^freecharge|^airtelpay|^ezetap|^mswipe|^mab0|^ombk|\.rzp$|\.payu$/i],
@@ -280,7 +281,7 @@
     ['wa', 'WhatsApp Pay'], ['upi', 'BHIM'], ['jupiter', 'Jupiter'], ['fam', 'FamPay'], ['navi', 'Navi'], ['slc', 'slice'], ['sl', 'slice'],
     ['axisb', 'Axis Bank'], ['axi', 'Axis Bank'], ['ax', 'Axis Bank'], ['icici', 'ICICI Bank'], ['ic', 'ICICI Bank'],
     ['hdfc', 'HDFC Bank'], ['h', 'HDFC Bank'], ['sbi', 'SBI'], ['yesb', 'Yes Bank'], ['yes', 'Yes Bank'], ['y', 'Yes Bank'],
-    ['kotak', 'Kotak'], ['kota', 'Kotak'], ['kmbl', 'Kotak'], ['idfc', 'IDFC First'], ['pnb', 'PNB'], ['mair', 'Airtel'], ['airtel', 'Airtel'],
+    ['kotak', 'Kotak'], ['kota', 'Kotak'], ['kmbl', 'Kotak'], ['idfc', 'IDFC First'], ['pnb', 'PNB'], ['mair', 'Airtel'], ['airtel', 'Airtel'], ['pop', 'POP'],
     ['cnrb', 'Canara Bank'], ['boi', 'Bank of India'], ['barodampay', 'Bank of Baroda'], ['federal', 'Federal Bank'], ['indus', 'IndusInd'],
   ];
 
@@ -310,7 +311,7 @@
     ['Fees & Charges', /SMS CHRG|CHRG|CHARGE|\bGST\b|MIN\s*BAL|\bAMB\b|PENAL/i],
     ['Income', /Int\.?\s*Pd|INTEREST|NPCI\/ECS\/CR|\bDIV(IDEND)?\b|SALARY|\bSAL\b/i],
     ['Refund', /^RCRADJ|\bREV(ERSAL)?\b|REFUND|\bRRC\b/i],
-    ['Credit Card Bill', /cred\.club|CRED Clu|CARD PAYMENT|CARDPAY|HDFC CARD|ICICI CARD|SBI CARD|AXIS CARD|\bAMEX\b|ONECARD|SLICE|UNI CARD/i],
+    ['Credit Card Bill', /cred\.club|CRED Clu|POPTECH|^poptech|CARD PAYMENT|CARDPAY|HDFC CARD|ICICI CARD|SBI CARD|AXIS CARD|\bAMEX\b|ONECARD|SLICE|UNI CARD/i],
     ['Investments', /GROWW|Indian Clearing|\bICCL\b|MUTUAL F|ZERODHA|UPSTOX|KUVERA|INDMONEY|PAYTM MONEY|ETMONEY|\bSIP\b|NIPPON|\bMF\b|\bCAMS\b|KFIN|SMALLCASE|COIN|ANGEL ONE|DHAN|BSE|\bNSE\b|NPS|PPF/i],
     ['Insurance', /Policyba|POLICYBAZAAR|\bLIC\b|INSURANCE|HDFC LIFE|ICICI PRU|MAX LIFE|BAJAJ ALLIANZ|\bACKO\b|\bDIGIT\b|STAR HEALTH|\bNIVA\b|TATA AIG|NEW INDIA ASSUR/i],
     ['Taxes & Government', /\bCBDT\b|\bTIN\b|Passport|\bGOVT?\b|MP Madhy|TRAFFIC|CHALLAN|MUNICIPAL|\bRTO\b|VAHAN|DEFMACRO|CLEARTAX|\bGST\b|INCOME TAX|E-?CHALLAN|PARIVAHAN|MPONLINE|DIGITAL GRAM/i],

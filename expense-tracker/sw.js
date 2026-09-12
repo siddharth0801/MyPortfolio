@@ -6,7 +6,7 @@
  * JS even though GitHub Pages caches for 10 minutes; the cache is only the offline fallback.
  * Pinned CDN libraries are immutable, so they are served cache-first.
  */
-const VERSION = 'v1';
+const VERSION = 'v2';
 const SHELL_CACHE = 'et-shell-' + VERSION;
 const LIB_CACHE = 'et-libs-' + VERSION;
 
