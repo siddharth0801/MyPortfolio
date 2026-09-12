@@ -1,0 +1,10 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# This site has no build step and no dependencies; nothing here should
+# ever appear. Listed so a stray local experiment is not committed.
+node_modules/

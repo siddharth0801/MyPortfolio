@@ -1,0 +1,475 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+/* ==========================================================================
+   Design tokens
+   Every colour, font stack, duration and repeated measurement is defined
+   once here. Changing the brand colour, or adding a dark theme later, means
+   editing this block and nothing else.
+   ========================================================================== */
+
+:root {
+    /* Brand */
+    --brand-primary: #2713db;
+    --brand-on-primary: #ffffff;
+    --brand-accent: #29c08d;      /* social icon hover */
+    --brand-script: darkslateblue; /* typewriter line */
+
+    /* Neutral ramp, darkest to lightest */
+    --color-ink: #0a0a0a;      /* section headings */
+    --color-ink-soft: #292929; /* hero copy */
+    --color-body: #585858;     /* about body copy */
+    --color-muted: #707070;    /* meta text, footer */
+    --color-nav: #464646;      /* nav links */
+
+    /* Surfaces */
+    --surface-page: #ffffff;
+    --surface-tint: #f5f5f5;
+    --surface-tint-strong: #d8d8d8;
+
+    /* Type */
+    --font-display: 'Poppins', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+    --font-serif: 'Times New Roman', Times, serif;
+    --font-script: Georgia, 'Times New Roman', Times, serif;
+
+    --fs-section-title: 30px;
+    --fs-hero-name: 70px;
+    --fs-brand: 30px;
+    --fs-edu-icon: 40px;
+    --fs-social: 31px;
+
+    /* Space */
+    --space-section: 100px;  /* section heading breathing room */
+    --space-gutter: 60px;    /* desktop page inset */
+    --nav-height: 72px;      /* used for anchor scroll offset */
+
+    /* Motion */
+    --dur-fast: 0.4s;
+    --dur-base: 0.6s;
+    --dur-slow: 0.7s;
+
+    /* Shape */
+    --radius-pill: 50px;
+    --radius-sm: 8px;
+    --card-width: 15rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --dur-fast: 0s;
+        --dur-base: 0s;
+        --dur-slow: 0s;
+    }
+}
+
+/* Anchor targets used to land underneath the fixed navbar. */
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+header[id],
+section[id],
+div[id],
+footer[id] {
+    scroll-margin-top: var(--nav-height);
+}
+
+/* The three section headings were byte-for-byte identical rules. */
+.section-heading {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-size: var(--fs-section-title);
+    font-weight: 900;
+    padding-top: var(--space-section);
+    padding-bottom: var(--space-section);
+}
+
+/* ==========================================================================
+   Header / hero
+   ========================================================================== */
+
+.site-header {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(57deg, var(--surface-tint-strong), var(--surface-tint));
+    clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 0% 100%);
+}
+
+.navbar {
+    /* Bootstrap 5 sets --bs-navbar-padding-x to 0; Bootstrap 4 used 1rem. */
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 16px;
+    transition: var(--dur-base);
+}
+
+.navbar-brand {
+    padding-left: var(--space-gutter);
+    font-weight: bold;
+    font-size: var(--fs-brand);
+}
+
+.navbar-nav {
+    padding-right: var(--space-gutter);
+}
+
+.navbar .navbar-nav .nav-item a {
+    color: var(--color-nav);
+    padding-left: 30px;
+    /* Declared on the base rule, not on :hover — otherwise the colour fades
+       in on mouse-enter and snaps back on leave. */
+    transition: color var(--dur-slow);
+}
+
+.navbar .navbar-nav .nav-item a:hover {
+    color: var(--brand-primary);
+}
+
+.hero {
+    /* Bootstrap 4's .jumbotron supplied padding and margin-bottom; it was
+       removed in Bootstrap 5, so they are restored here verbatim. */
+    padding: 2rem 1rem 2rem var(--space-gutter);
+    margin-bottom: 2rem;
+    background-color: transparent;
+    border-radius: 0px;
+}
+
+@media (min-width: 576px) {
+    .hero {
+        padding: 4rem 2rem 4rem var(--space-gutter);
+    }
+}
+
+.hero h1 {
+    font-family: var(--font-body);
+    color: var(--color-ink-soft);
+    padding-top: 170px;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.hero h2 {
+    font-family: var(--font-display);
+    color: var(--brand-primary);
+    font-size: var(--fs-hero-name);
+    font-weight: 700;
+    padding-top: 10px;
+}
+
+.hero p {
+    font-family: var(--font-body);
+    color: var(--color-ink-soft);
+    font-size: 16pt;
+    padding-top: 3px;
+}
+
+.hero .btn {
+    color: var(--brand-on-primary);
+    font-family: var(--font-display);
+    font-size: 16px;
+    background-color: var(--brand-primary);
+    border-radius: var(--radius-pill);
+    border-color: black;
+    /* box-shadow is kept at Bootstrap's own duration so the focus ring still
+       fades in; declaring transition here would otherwise replace it. */
+    transition: color var(--dur-base), background-color var(--dur-base),
+        border-color var(--dur-base), box-shadow 0.15s ease-in-out;
+}
+
+.hero .btn:hover {
+    color: var(--brand-primary);
+    background-color: transparent;
+    border-color: var(--brand-primary);
+}
+
+.hero .btndownloadcv {
+    background-color: transparent;
+    color: black;
+    margin-left: 20px;
+}
+
+.hero .btndownloadcv:hover {
+    background-color: var(--brand-primary);
+    color: var(--brand-on-primary);
+}
+
+.hero-actions {
+    /* Preserves the margin the replaced <ul> inherited from Reboot. */
+    margin-bottom: 1rem;
+}
+
+#text-write {
+    font-family: var(--font-script);
+    font-style: italic;
+    color: var(--brand-script);
+    font-size: var(--fs-social);
+    padding: 1%;
+}
+
+/* ==========================================================================
+   About
+   ========================================================================== */
+
+.aboutme .body h2 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-size: 26px;
+    font-weight: 900;
+    padding-bottom: 10px;
+}
+
+.aboutme .body h3 {
+    font-family: var(--font-display);
+    color: var(--brand-primary);
+    font-size: 16px;
+    font-weight: bold;
+    padding-bottom: 4px;
+}
+
+.aboutme .body p {
+    padding-top: 5px;
+    font-family: var(--font-display);
+    font-size: 20px;
+    color: var(--color-body);
+}
+
+.education {
+    margin: 0;
+}
+
+.edu {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.edu__body {
+    flex: 1;
+}
+
+.edu__degree {
+    font-weight: bold;
+}
+
+.aboutme .body .education i {
+    color: var(--brand-primary);
+    font-size: var(--fs-edu-icon);
+    padding-top: 50px;
+    padding-bottom: 20px;
+    padding-left: 100px;
+}
+
+.aboutme .body .education p {
+    padding-top: 30px;
+    font-family: var(--font-display);
+    color: var(--color-muted);
+    font-size: 15px;
+    font-weight: 100;
+}
+
+@media (max-width: 992px) {
+    .aboutme .body .education i {
+        padding-left: 0px;
+    }
+}
+
+@media (max-width: 576px) {
+    .aboutme {
+        padding-left: 30px;
+    }
+}
+
+/* ==========================================================================
+   Skills
+   ========================================================================== */
+
+.skill-grid {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 62rem;
+    /* Flex rather than grid: with a count that does not divide evenly into
+       the column count (13 skills today), grid strands the remainder at the
+       left of the last row. Wrapping flex items centre it instead, so the
+       layout stays tidy for any number of skills. */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    text-align: center;
+}
+
+.skill {
+    flex: 0 1 7rem;
+}
+
+/* A fixed box, not height:auto — logos have very different aspect ratios,
+   and without a reserved height a lazy-loaded icon collapses to nothing and
+   the rows go ragged until it arrives. contain keeps every logo undistorted. */
+.tech-icon {
+    border-radius: var(--radius-sm);
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+}
+
+.skill__name {
+    display: block;
+    margin-top: 0.5rem;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-muted);
+}
+
+/* ==========================================================================
+   Projects
+   ========================================================================== */
+
+.projects {
+    font-family: var(--font-serif);
+}
+
+/* Was an inline style="width: 15rem" repeated on every card. */
+.project-card {
+    max-width: var(--card-width);
+    margin-inline: auto;
+}
+
+/* A shared ratio keeps the cards aligned; h-100 plus mt-auto on the button
+   bottom-aligns the calls to action. */
+.project-card__img {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+/* ==========================================================================
+   Contact form
+   ========================================================================== */
+
+/* Bootstrap's modal supplies the dialog; this only restores the 600px cap
+   the hand-rolled panel had. */
+.contact-modal-dialog {
+    max-width: 600px;
+}
+
+.form-status {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    font-family: var(--font-display);
+    font-size: 15px;
+}
+
+/* Some resets clobber [hidden]; be explicit. */
+.form-status[hidden] {
+    display: none;
+}
+
+.form-status--success {
+    color: #1d7a53;
+}
+
+.form-status--error {
+    color: #c0392b;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.site-footer {
+    width: 100%;
+    min-height: 45vh;
+    background: linear-gradient(57deg, var(--surface-tint), var(--surface-tint));
+    clip-path: polygon(0 20%, 100% 0, 100% 100%, 0% 100%);
+}
+
+.site-footer .sitefooterhead h1 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 100;
+    padding-top: var(--space-section);
+    padding-bottom: 20px;
+    color: var(--color-muted);
+}
+
+.site-footer .sitefooterbody i {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: var(--fs-social);
+    color: var(--color-muted);
+    transition: color var(--dur-fast);
+}
+
+/* No font-size here: it used to be restated, which outranked the mobile
+   override and made icons jump from 20px to 31px on hover. */
+.site-footer .sitefooterbody i:hover {
+    color: var(--brand-accent);
+}
+
+.site-footer .sitefooterbody p {
+    font-size: 18px;
+    padding-top: 50px;
+    font-family: var(--font-display);
+    color: var(--color-muted);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 992px) {
+    .navbar {
+        background-color: var(--surface-page);
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        padding-left: 20px;
+    }
+
+    .hero {
+        padding-left: 20px;
+    }
+
+    .hero h2 {
+        font-size: 50px;
+    }
+
+    #text-write {
+        font-size: 20px;
+    }
+
+    .site-footer .sitefooterbody i {
+        margin-left: 11px;
+        margin-right: 11px;
+        font-size: 20px;
+    }
+
+    .site-footer .sitefooterbody p {
+        font-size: 14px;
+    }
+
+    .site-footer {
+        min-height: 40vh;
+    }
+}
+
+/* Bootstrap 5 adds an xxl breakpoint that widens .container from 1140px to
+   1320px. This layout was built for 1140px. Delete this block to opt into
+   the wider container. */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1140px;
+    }
+}
