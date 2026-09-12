@@ -114,6 +114,15 @@ section.tab.active { display: block; }
 .tile .label { font-size: 12px; color: var(--ink-2); font-weight: 500; }
 .tile .value { font-size: 22px; font-weight: 650; letter-spacing: -0.02em; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tile .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.tile.wide { grid-column: 1 / -1; }
+.tile.wide .value { font-size: 34px; }
+.tile.level-caution { border-left: 4px solid var(--warn); }
+.tile.level-danger { border-left: 4px solid var(--danger); }
+.tile.level-safe { border-left: 4px solid var(--good); }
+details.card > summary { cursor: pointer; list-style: none; }
+details.card > summary::-webkit-details-marker { display: none; }
+details.card > summary::after { content: '+'; float: right; color: var(--muted); font-weight: 700; }
+details.card[open] > summary::after { content: '–'; }
 .hero { font-size: 40px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
 
 /* ---------- status banner ---------- */

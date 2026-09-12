@@ -125,6 +125,12 @@
     else if (base.perDay) { reference = base.perDay * dim; referenceKind = 'baseline'; }
 
     const projected = mtd + base.perDay * daysRemaining;
+    // same-day comparison with last month (clamped to that month's length)
+    const prevYm = addMonths(ym, -1);
+    const prevSameDay = prevYm + '-' + String(Math.min(dayOfMonth, daysInMonth(prevYm))).padStart(2, '0');
+    const lastMonthCovered = !!(cov.start && cov.start <= monthStart(prevYm) && cov.end >= prevSameDay);
+    const lastMonthSameDay = sum(inRange(spendTxs, monthStart(prevYm), prevSameDay));
+    const lastMonthTotal = sum(inRange(spendTxs, monthStart(prevYm), monthEnd(prevYm)));
     const dataStale = cov.end && cov.end < today ? daysBetween(cov.end, today) : 0;
 
     let dayLevel = 'safe', monthLevel = 'safe', level = 'neutral', reason = '';
@@ -153,6 +159,7 @@
       today, coverage: cov, coveredDays, dataStale,
       todayPaise, weekPaise, mtd, fixedMtd, projected, daysRemaining, daysInMonth: dim,
       baseline: base, reference, referenceKind, budget,
+      prevMonth: prevYm, lastMonthSameDay, lastMonthTotal, lastMonthCovered,
       safePerDay: budget ? Math.max(0, (budget - mtd) / Math.max(1, daysRemaining + 1)) : null,
       level, dayLevel, monthLevel, reason,
       txCountToday: todayTxs.length,

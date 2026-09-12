@@ -117,6 +117,22 @@ test('summarize: fixed spend is reported separately and excluded categories neve
   assert.equal(s.baseline.perDay, R(500));
 });
 
+test('summarize: same-day-last-month comparison is clamped and coverage-aware', () => {
+  const txs = [];
+  for (let d = 1; d <= 31; d++) txs.push(tx(`2026-08-${String(d).padStart(2, '0')}`, 100));
+  for (let d = 1; d <= 12; d++) txs.push(tx(`2026-09-${String(d).padStart(2, '0')}`, 200));
+  const s = M.summarize(txs, {}, IMPORTS, TODAY);
+  assert.equal(s.prevMonth, '2026-08');
+  assert.equal(s.lastMonthCovered, true);
+  assert.equal(s.lastMonthSameDay, R(1200)); // Aug 1–12
+  assert.equal(s.lastMonthTotal, R(3100));
+  const s31 = M.summarize(txs, {}, IMPORTS, '2026-10-31'); // September has 30 days → clamp to Sep 30
+  assert.equal(s31.prevMonth, '2026-09');
+  assert.equal(s31.lastMonthSameDay, R(2400));
+  const uncovered = M.summarize(txs.filter((t) => t.date >= '2026-09-01'), {}, [{ coverageStart: '2026-09-01', coverageEnd: '2026-09-12' }], TODAY);
+  assert.equal(uncovered.lastMonthCovered, false);
+});
+
 test('summarize: stale data is flagged when the latest statement ends before today', () => {
   const s = M.summarize(quietMonth(500, 30, '2026-09-05'), {}, [{ coverageStart: '2026-06-01', coverageEnd: '2026-09-05' }], TODAY);
   assert.equal(s.dataStale, 7);

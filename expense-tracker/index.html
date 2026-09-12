@@ -11,7 +11,7 @@
   <link rel="apple-touch-icon" href="icons/icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <link rel="stylesheet" href="app.css?v=2">
+  <link rel="stylesheet" href="app.css?v=3">
 </head>
 <body>
   <header class="topbar">
@@ -36,17 +36,10 @@
         <div class="chart"><canvas id="chart-daily"></canvas></div>
         <div class="legend" id="daily-legend"></div>
       </div>
-      <div class="two">
-        <div class="card">
-          <div class="card-head"><h2>Where the money went</h2><span class="small muted" id="cat-sub">this month</span></div>
-          <div class="chart short"><canvas id="chart-cat"></canvas></div>
-          <div class="legend" id="cat-legend"></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><h2>Paid through</h2><span class="small muted" id="channel-sub">merchant's provider</span></div>
-          <div class="chart short"><canvas id="chart-channel"></canvas></div>
-          <div class="legend" id="channel-legend"></div>
-        </div>
+      <div class="card">
+        <div class="card-head"><h2>Where the money went</h2><span class="small muted" id="cat-sub">this month</span></div>
+        <div class="chart short"><canvas id="chart-cat"></canvas></div>
+        <div class="legend" id="cat-legend"></div>
       </div>
       <div class="card">
         <div class="card-head"><h2>Last 12 months</h2><span class="small muted">day-to-day spend only</span></div>
@@ -89,14 +82,14 @@
 
     <!-- ================= IMPORT ================= -->
     <section class="tab stack" id="tab-import" data-tab="import">
-      <div class="card">
-        <h2>Import a PNB statement</h2>
+      <details class="card" id="import-help">
+        <summary><h2 style="display:inline">How to download a PNB statement</h2></summary>
         <ol class="steps">
           <li>PNB One → <b>Account Services</b> → <b>Download Statement</b> → choose <b>Excel</b>.</li>
           <li>Pick up to <b>3 months</b> per file: PNB One stops at 500 transactions and silently drops older rows. For a year, download 4 files. Overlaps are fine.</li>
           <li>Drop the file here. It is password-protected; the password is usually your full account number. Decryption happens on this device.</li>
         </ol>
-      </div>
+      </details>
       <label class="drop" id="drop">
         <input type="file" id="file-input" accept=".xls,.xlsx,.csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv">
         <div><b>Tap to choose a statement</b> or drop it here</div>
@@ -120,11 +113,11 @@
         <p class="fine">Without a budget, this month is compared with the average of your last 3 full months. Today is always compared with your trailing 30-day average.</p>
         <label class="check"><input type="checkbox" id="set-notify"> Show a browser notification when I open the app in Danger</label>
       </div>
-      <div class="card stack">
-        <h2>What counts as day-to-day spend</h2>
-        <p class="fine">Unticked categories are treated as fixed commitments: shown separately, never in averages or alerts.</p>
+      <details class="card">
+        <summary><h2 style="display:inline">What counts as day-to-day spend</h2></summary>
+        <p class="fine" style="margin-top:8px">Unticked categories are treated as fixed commitments: shown separately, never in averages or alerts.</p>
         <div id="set-categories"></div>
-      </div>
+      </details>
       <div class="card stack">
         <h2>Your own accounts</h2>
         <label class="field">Your name as printed on the statement
@@ -224,9 +217,9 @@
       document.head.appendChild(s);
     });
   </script>
-  <script src="cfb-decrypt.js?v=2"></script>
-  <script src="parsers.js?v=2"></script>
-  <script src="metrics.js?v=2"></script>
-  <script src="app.js?v=2"></script>
+  <script src="cfb-decrypt.js?v=3"></script>
+  <script src="parsers.js?v=3"></script>
+  <script src="metrics.js?v=3"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

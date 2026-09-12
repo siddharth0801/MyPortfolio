@@ -12,7 +12,7 @@
   const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const monthLabel = (ym) => { const [y, m] = ym.split('-'); return `${MONTH_NAMES[+m - 1]} ${y}`; };
   const dateLabel = (iso) => { const [y, m, d] = iso.split('-'); return `${+d} ${MONTH_NAMES[+m - 1]} ${y}`; };
-  const APP_VERSION = '1.1';
+  const APP_VERSION = '1.2';
   // Bumping RULES_VERSION re-categorises every rule-tagged row on next load (user tags are never touched).
   const RULES_VERSION = 2;
   // Personal payee tags seeded for the account owner; PNB truncates names to 8 characters.
@@ -80,7 +80,6 @@
   function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
   const SLOT_VARS = ['--s1', '--s2', '--s3', '--s4', '--s5', '--s6', '--s7', '--s8'];
   const CATEGORY_SLOT = { 'Food & Dining': 0, 'Transport & Fuel': 1, 'Groceries & Essentials': 2, 'Untagged': 3, 'Shopping': 4, 'Health & Fitness': 5, 'Bills & Subscriptions': 6, 'Entertainment': 7 };
-  const CHANNEL_SLOT = { 'Paytm': 0, 'BharatPe': 1, 'Google Pay': 2, 'Payment gateway': 3, 'Amazon Pay': 4, 'CRED': 5, 'PhonePe': 6, 'Pine Labs': 7 };
   const colorFor = (map, key) => (map[key] != null ? cssVar(SLOT_VARS[map[key]]) : cssVar('--other'));
 
   function setTab(tab) {
@@ -112,7 +111,7 @@
     Chart.defaults.plugins.tooltip.bodyColor = cssVar('--bg');
     Chart.defaults.plugins.tooltip.displayColors = false;
   }
-  const rupeeTicks = { callback: (v) => (v >= 100000 ? (v / 100000).toFixed(1).replace(/\.0$/, '') + 'L' : v >= 1000 ? Math.round(v / 1000) + 'k' : String(v)) };
+  const rupeeTicks = { callback: (v) => (v >= 100000 ? (v / 100000).toFixed(1).replace(/\.0$/, '') + 'L' : v >= 1000 ? (v / 1000).toFixed(v % 1000 ? 1 : 0) + 'k' : String(v)) };
 
   // ------------------------------------------------------------ derived data
   const settings = () => state.meta.settings;
@@ -138,16 +137,22 @@
       stale.innerHTML = `<div class="stale">Statement data ends <b>${dateLabel(s.coverage.end)}</b> (${s.dataStale} day${s.dataStale === 1 ? '' : 's'} ago). Today's figure only includes what you add manually — <a href="#import" data-go="import">import a fresh statement</a> for the full picture.</div>`;
     } else stale.innerHTML = '';
 
+    const pct = (now, then) => (then ? `${now >= then ? '+' : '−'}${Math.round(Math.abs(now - then) / then * 100)}%` : null);
+    const prevLabel = MONTH_NAMES[+s.prevMonth.slice(5) - 1];
+    const dayN = +today.slice(8, 10);
+    const todaySub = s.baseline.perDay
+      ? `your usual day is ${fmt(s.baseline.perDay, R0)}${s.dayLevel !== 'safe' ? ` · ${(s.todayPaise / s.baseline.perDay).toFixed(1)}× today` : ''}`
+      : (s.coverage.start ? 'building your usual-day baseline' : 'import a statement to start');
+    const monthLines = [];
+    if (s.budget) monthLines.push(`budget ${fmt(s.budget, R0)} · ${fmt(s.safePerDay, R0)}/day left`);
+    else monthLines.push(`projected ${fmt(s.projected, R0)}${s.reference && s.referenceKind !== 'baseline' ? ` vs ${fmt(s.reference, R0)} recent avg` : ''}`);
+    if (s.lastMonthCovered) monthLines.push(`${prevLabel} by the ${dayN}${['th', 'st', 'nd', 'rd'][(dayN % 10 > 3 || Math.floor(dayN % 100 / 10) === 1) ? 0 : dayN % 10]}: ${fmt(s.lastMonthSameDay, R0)} (${pct(s.mtd, s.lastMonthSameDay) || '—'})`);
     const tiles = [
-      { label: 'Today', value: fmt(s.todayPaise, R0), sub: s.txCountToday ? `${s.txCountToday} payment${s.txCountToday > 1 ? 's' : ''}` : 'no payments yet' },
-      { label: 'This week', value: fmt(s.weekPaise, R0), sub: 'since Monday' },
-      { label: 'This month so far', value: fmt(s.mtd, R0), sub: `${s.daysRemaining} days left` },
-      { label: 'Your usual day', value: fmt(s.baseline.perDay, R0), sub: s.baseline.days ? `trimmed mean of ${s.baseline.days} days` : 'need more data' },
-      { label: 'Projected month', value: fmt(s.projected, R0), sub: s.reference ? `vs ${fmt(s.reference)} ${s.referenceKind === 'budget' ? 'budget' : s.referenceKind === 'prior-months' ? 'recent avg' : 'baseline'}` : 'no reference yet' },
-      { label: 'Fixed this month', value: fmt(s.fixedMtd, R0), sub: 'rent, SIPs, bills, card' },
+      { cls: `wide level-${s.level === 'neutral' ? 'none' : s.dayLevel}`, label: 'Spent today', value: fmt(s.todayPaise, R0), sub: todaySub },
+      { cls: `level-${s.level === 'neutral' ? 'none' : s.monthLevel}`, label: `${monthLabel(today.slice(0, 7)).split(' ')[0]} so far`, value: fmt(s.mtd, R0), sub: monthLines.join('<br>') },
+      { cls: '', label: 'Fixed this month', value: fmt(s.fixedMtd, R0), sub: 'rent, SIPs, card bill, insurance' },
     ];
-    if (s.budget) tiles.push({ label: 'Safe to spend / day', value: fmt(s.safePerDay, R0), sub: 'to stay within budget' });
-    $('#home-tiles').innerHTML = tiles.map((t) => `<div class="tile"><div class="label">${esc(t.label)}</div><div class="value">${esc(t.value)}</div><div class="sub">${esc(t.sub)}</div></div>`).join('');
+    $('#home-tiles').innerHTML = tiles.map((t) => `<div class="tile ${t.cls}"><div class="label">${esc(t.label)}</div><div class="value">${esc(t.value)}</div><div class="sub">${t.sub}</div></div>`).join('');
 
     chartDefaults();
     // Focus month: the current month, or the latest month that has any debit when the statement is older.
@@ -183,10 +188,8 @@
     const focusEnd = isCurrent ? today : Metrics.monthEnd(ym);
     const mtdTxs = Metrics.inRange(spendTxs(), Metrics.monthStart(ym), focusEnd);
     const fixedMtd = Metrics.inRange(fixedTxs(), Metrics.monthStart(ym), focusEnd);
-    $('#cat-sub').textContent = monthLabel(ym);
-    $('#channel-sub').textContent = `${monthLabel(ym)} · merchant's provider`;
-    donut('chart-cat', 'cat-legend', groupTop(mtdTxs.concat(fixedMtd), (t) => t.category, 7), CATEGORY_SLOT, surface);
-    donut('chart-channel', 'channel-legend', groupTop(mtdTxs, (t) => t.channel, 7), CHANNEL_SLOT, surface);
+    $('#cat-sub').textContent = `${monthLabel(ym)} · day-to-day only`;
+    donut('chart-cat', 'cat-legend', groupTop(mtdTxs, (t) => t.category, 7), CATEGORY_SLOT, surface);
 
     const months = Metrics.lastMonths(today, 12);
     const bym = Metrics.byMonth(spendTxs(), months);
@@ -254,7 +257,7 @@
       }
       const col = colorFor(CATEGORY_SLOT, t.category);
       const initial = (t.payee || '?').trim().charAt(0).toUpperCase();
-      const metaBits = [t.category, t.channel && t.channel !== 'Other UPI' ? t.channel : null, t.note].filter(Boolean);
+      const metaBits = [t.category, t.note].filter(Boolean);
       html += `<div class="row ${t.excluded ? 'excluded' : ''}" data-id="${esc(t.id)}"><div class="avatar" style="background:${col}">${esc(initial)}</div><div class="who"><div class="name">${esc(t.payee)}</div><div class="meta">${esc(metaBits.join(' · '))}</div></div><div class="amt ${t.dir === 'CR' ? 'cr' : ''}">${t.dir === 'CR' ? '+' : '−'}${fmt(t.amount)}</div></div>`;
     }
     list.innerHTML = html;
@@ -269,51 +272,41 @@
     const fixed = Metrics.inRange(fixedTxs(), start, end);
     const body = $('#insights-body');
     if (!spend.length && !fixed.length) { body.innerHTML = '<div class="card empty">No transactions in this period.</div>'; return; }
-    const total = Metrics.sum(spend);
     const bars = (groups, valueFn, labelFn, subFn) => {
       const max = Math.max(...groups.map(valueFn), 1);
-      return `<div class="bars">${groups.map((g) => `<div class="bar-row"><div class="name" title="${esc(labelFn(g))}">${esc(labelFn(g))}${subFn ? `<div class="fine">${esc(subFn(g))}</div>` : ''}</div><div class="track"><div class="fill" style="width:${Math.max(2, (valueFn(g) / max) * 100)}%"></div></div><div class="val">${esc(typeof valueFn(g) === 'number' && valueFn(g) > 1000 ? fmt(valueFn(g)) : String(valueFn(g)))}</div></div>`).join('')}</div>`;
+      return `<div class="bars">${groups.map((g) => `<div class="bar-row"><div class="name" title="${esc(labelFn(g))}">${esc(labelFn(g))}${subFn ? `<div class="fine">${esc(subFn(g))}</div>` : ''}</div><div class="track"><div class="fill" style="width:${Math.max(2, (valueFn(g) / max) * 100)}%"></div></div><div class="val">${fmt(valueFn(g), R0)}</div></div>`).join('')}</div>`;
     };
-    const payeeName = (g) => (spend.concat(fixed).find((t) => (t.payeeNorm || t.payee) === g.key) || {}).payee || g.key;
+    const all = spend.concat(fixed);
+    const payeeName = (g) => (all.find((t) => (t.payeeNorm || t.payee) === g.key) || {}).payee || g.key;
     const top = Metrics.topPayees(spend, 8);
-    const freq = Metrics.frequentPayees(spend, 8);
-    const rec = Metrics.recurring(spend.concat(fixed), 3).slice(0, 10);
-    const biggest = spend.slice().sort((a, b) => b.amount - a.amount).slice(0, 8);
-    const wd = Metrics.weekdayPattern(spend, start < '2000' ? (spend[0] ? spend.map((t) => t.date).sort()[0] : today) : start, end > '3000' ? today : end);
-    const buckets = Metrics.amountBuckets(spend);
+    const rec = Metrics.recurring(all, 3).slice(0, 8);
+    const biggest = spend.slice().sort((a, b) => b.amount - a.amount).slice(0, 6);
     const untagged = Metrics.groupSum(spend.filter((t) => t.category === 'Untagged'), (t) => t.payeeNorm || t.payee).sort((a, b) => b.paise - a.paise).slice(0, 12);
-    const ym = today.slice(0, 7), prev = Metrics.addMonths(ym, -1);
-    const thisM = Metrics.sum(Metrics.inRange(spendTxs(), Metrics.monthStart(ym), today));
-    const lastMsameDay = Metrics.sum(Metrics.inRange(spendTxs(), Metrics.monthStart(prev), prev + '-' + today.slice(8)));
-    const lastMfull = Metrics.sum(Metrics.inRange(spendTxs(), Metrics.monthStart(prev), Metrics.monthEnd(prev)));
     const fixedByCat = groupTop(fixed, (t) => t.category, 8);
+    const s = Metrics.summarize(state.txns, settings(), state.meta.imports, today);
+    const prevLabel = MONTH_NAMES[+s.prevMonth.slice(5) - 1];
+    const cmp = state.insightPeriod === 'month' && s.lastMonthCovered
+      ? `<div class="tile"><div class="label">vs ${prevLabel} by the same day</div><div class="value">${s.lastMonthSameDay ? (s.mtd >= s.lastMonthSameDay ? '+' : '−') + Math.round(Math.abs(s.mtd - s.lastMonthSameDay) / s.lastMonthSameDay * 100) + '%' : '—'}</div><div class="sub">${fmt(s.lastMonthSameDay, R0)} then · ${fmt(s.lastMonthTotal, R0)} full month</div></div>` : '';
 
     body.innerHTML = `
       <div class="tiles">
-        <div class="tile"><div class="label">Day-to-day spend</div><div class="value">${fmt(total)}</div><div class="sub">${spend.length} payments</div></div>
-        <div class="tile"><div class="label">Fixed commitments</div><div class="value">${fmt(Metrics.sum(fixed))}</div><div class="sub">${fixed.length} payments</div></div>
-        <div class="tile"><div class="label">Median payment</div><div class="value">${fmt(median(spend.map((t) => t.amount)))}</div><div class="sub">half your payments are smaller</div></div>
-        <div class="tile"><div class="label">${monthLabel(ym)} vs ${monthLabel(prev)}</div><div class="value">${lastMsameDay ? (thisM >= lastMsameDay ? '+' : '−') + Math.round(Math.abs(thisM - lastMsameDay) / lastMsameDay * 100) + '%' : '—'}</div><div class="sub">same day last month: ${fmt(lastMsameDay)} · full month ${fmt(lastMfull)}</div></div>
+        <div class="tile"><div class="label">Day-to-day spend</div><div class="value">${fmt(Metrics.sum(spend), R0)}</div><div class="sub">${spend.length} payments</div></div>
+        <div class="tile"><div class="label">Fixed commitments</div><div class="value">${fmt(Metrics.sum(fixed), R0)}</div><div class="sub">${fixed.length} payments</div></div>
+        ${cmp}
       </div>
-      ${untagged.length ? `<div class="card"><div class="card-head"><h2>Tag these payees</h2><span class="small muted">${untagged.length} untagged</span></div><p class="fine">PNB cuts names to 8 characters. Pick a category once; it applies to every past and future payment to that payee.</p><div class="list" id="untagged-list">${untagged.map((g) => `<div class="row" style="cursor:default"><div class="avatar" style="background:${cssVar('--s4')}">${esc(payeeName(g).charAt(0).toUpperCase())}</div><div class="who"><div class="name">${esc(payeeName(g))}</div><div class="meta">${g.count}× · ${fmt(g.paise)}</div></div><select data-payee="${esc(g.key)}" style="width:auto;max-width:46vw"><option value="">Choose…</option>${Parsers.CATEGORIES.filter((c) => !['Received', 'Refund', 'Income', 'Untagged'].includes(c)).map((c) => `<option>${esc(c)}</option>`).join('')}</select></div>`).join('')}</div></div>` : ''}
+      ${untagged.length ? `<div class="card"><div class="card-head"><h2>Tag these payees</h2><span class="small muted">${untagged.length} untagged</span></div><p class="fine">PNB cuts names to 8 characters. Pick a category once; it applies to every past and future payment to that payee.</p><div class="list" id="untagged-list">${untagged.map((g) => `<div class="row" style="cursor:default"><div class="avatar" style="background:${cssVar('--s4')}">${esc(payeeName(g).charAt(0).toUpperCase())}</div><div class="who"><div class="name">${esc(payeeName(g))}</div><div class="meta">${g.count}× · ${fmt(g.paise, R0)}</div></div><select data-payee="${esc(g.key)}" style="width:auto;max-width:46vw"><option value="">Choose…</option>${Parsers.CATEGORIES.filter((c) => !['Received', 'Refund', 'Income', 'Untagged'].includes(c)).map((c) => `<option>${esc(c)}</option>`).join('')}</select></div>`).join('')}</div></div>` : ''}
       <div class="two">
-        <div class="card"><div class="card-head"><h2>Top payees</h2><span class="small muted">by amount</span></div>${bars(top, (g) => g.paise, payeeName, (g) => `${g.count}×`)}</div>
-        <div class="card"><div class="card-head"><h2>Most frequent</h2><span class="small muted">by count</span></div>${bars(freq, (g) => g.count, payeeName, (g) => `${fmt(g.paise)} total · avg ${fmt(g.paise / g.count)}`)}</div>
-      </div>
-      <div class="two">
-        <div class="card"><div class="card-head"><h2>Recurring payments</h2><span class="small muted">same payee in 3+ months</span></div>${rec.length ? bars(rec, (g) => g.paise, payeeName, (g) => `${g.months} months · ${g.count}× · avg ${fmt(g.paise / g.count)}`) : '<div class="empty">Nothing recurring yet.</div>'}</div>
-        <div class="card"><div class="card-head"><h2>Biggest payments</h2></div><div class="list">${biggest.map((t) => `<div class="row" data-id="${esc(t.id)}"><div class="avatar" style="background:${colorFor(CATEGORY_SLOT, t.category)}">${esc((t.payee || '?').charAt(0).toUpperCase())}</div><div class="who"><div class="name">${esc(t.payee)}</div><div class="meta">${esc(dateLabel(t.date))} · ${esc(t.category)}</div></div><div class="amt">${fmt(t.amount)}</div></div>`).join('')}</div></div>
+        <div class="card"><div class="card-head"><h2>Top payees</h2><span class="small muted">day-to-day</span></div>${bars(top, (g) => g.paise, payeeName, (g) => `${g.count}× · avg ${fmt(g.paise / g.count, R0)}`)}</div>
+        <div class="card"><div class="card-head"><h2>Recurring</h2><span class="small muted">same payee in 3+ months</span></div>${rec.length ? bars(rec, (g) => g.paise, payeeName, (g) => `${g.months} months · ${g.count}×`) : '<div class="empty">Nothing recurring yet.</div>'}</div>
       </div>
       <div class="two">
-        <div class="card"><div class="card-head"><h2>Weekday pattern</h2><span class="small muted">average per day</span></div>${bars(wd, (g) => Math.round(g.avg), (g) => g.weekday)}</div>
-        <div class="card"><div class="card-head"><h2>Payment sizes</h2><span class="small muted">count · total</span></div>${bars(buckets, (g) => g.count, (g) => g.label, (g) => fmt(g.paise))}</div>
+        <div class="card"><div class="card-head"><h2>Biggest payments</h2></div><div class="list">${biggest.map((t) => `<div class="row" data-id="${esc(t.id)}"><div class="avatar" style="background:${colorFor(CATEGORY_SLOT, t.category)}">${esc((t.payee || '?').charAt(0).toUpperCase())}</div><div class="who"><div class="name">${esc(t.payee)}</div><div class="meta">${esc(dateLabel(t.date))} · ${esc(t.category)}</div></div><div class="amt">${fmt(t.amount, R0)}</div></div>`).join('')}</div></div>
+        ${fixed.length ? `<div class="card"><div class="card-head"><h2>Fixed commitments</h2><span class="small muted">not in alerts</span></div>${bars(fixedByCat, (g) => g.paise, (g) => g.key, (g) => `${g.count}×`)}</div>` : ''}
       </div>
-      ${fixed.length ? `<div class="card"><div class="card-head"><h2>Fixed commitments</h2><span class="small muted">excluded from alerts</span></div>${bars(fixedByCat, (g) => g.paise, (g) => g.key, (g) => `${g.count}×`)}</div>` : ''}
     `;
     $$('#untagged-list select', body).forEach((sel) => sel.addEventListener('change', () => { if (sel.value) { applyCategory(sel.dataset.payee, sel.value); toast(`Tagged as ${sel.value}`); render(); } }));
     $$('.row[data-id]', body).forEach((r) => r.addEventListener('click', () => openEdit(r.dataset.id)));
   }
-  function median(arr) { if (!arr.length) return 0; const s = arr.slice().sort((a, b) => a - b); const m = Math.floor(s.length / 2); return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
 
   function applyCategory(payeeNorm, category) {
     state.meta.payeeCategoryMap[payeeNorm] = category;
@@ -521,6 +514,7 @@
   }
 
   function renderImport() {
+    $('#import-help').open = !state.meta.imports.length;
     const hist = $('#import-history');
     const imports = state.meta.imports.slice().reverse();
     $('#undo-import').hidden = !imports.length;
