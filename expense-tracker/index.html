@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>UPI Spend Tracker</title>
+  <meta name="description" content="Track UPI spending from PNB statements. Warns when you are overspending against your own averages. Everything stays on your device.">
+  <meta name="theme-color" content="#1f4fd8">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="stylesheet" href="app.css?v=2">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="icons/icon.svg" alt="">
+      <div>
+        <h1>UPI Spend</h1>
+        <small id="brand-sub">On-device · nothing uploaded</small>
+      </div>
+    </div>
+    <button class="btn small" id="quick-add">+ Add expense</button>
+  </header>
+
+  <main>
+    <!-- ================= HOME ================= -->
+    <section class="tab active stack" id="tab-home" data-tab="home">
+      <div id="home-banner"></div>
+      <div id="home-stale"></div>
+      <div class="tiles" id="home-tiles"></div>
+      <div class="card">
+        <div class="card-head"><h2 id="daily-title">This month, day by day</h2><span class="small muted" id="daily-sub"></span></div>
+        <div class="chart"><canvas id="chart-daily"></canvas></div>
+        <div class="legend" id="daily-legend"></div>
+      </div>
+      <div class="two">
+        <div class="card">
+          <div class="card-head"><h2>Where the money went</h2><span class="small muted" id="cat-sub">this month</span></div>
+          <div class="chart short"><canvas id="chart-cat"></canvas></div>
+          <div class="legend" id="cat-legend"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Paid through</h2><span class="small muted" id="channel-sub">merchant's provider</span></div>
+          <div class="chart short"><canvas id="chart-channel"></canvas></div>
+          <div class="legend" id="channel-legend"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>Last 12 months</h2><span class="small muted">day-to-day spend only</span></div>
+        <div class="chart"><canvas id="chart-months"></canvas></div>
+      </div>
+    </section>
+
+    <!-- ================= HISTORY ================= -->
+    <section class="tab stack" id="tab-history" data-tab="history">
+      <div class="month-nav card">
+        <button class="btn small" id="month-prev" aria-label="Previous month">‹</button>
+        <div style="text-align:center"><strong id="month-label"></strong><div class="small muted" id="month-total"></div></div>
+        <button class="btn small" id="month-next" aria-label="Next month">›</button>
+      </div>
+      <div class="toolbar">
+        <input type="search" id="filter-search" placeholder="Search payee, note, narration" style="flex:1 1 180px">
+        <select id="filter-cat" style="flex:1 1 140px"><option value="">All categories</option></select>
+        <select id="filter-kind" style="flex:1 1 120px">
+          <option value="">Debits & credits</option>
+          <option value="spend">Day-to-day spend</option>
+          <option value="fixed">Fixed commitments</option>
+          <option value="CR">Credits only</option>
+        </select>
+      </div>
+      <div class="card"><div class="list" id="tx-list"></div></div>
+    </section>
+
+    <!-- ================= INSIGHTS ================= -->
+    <section class="tab stack" id="tab-insights" data-tab="insights">
+      <div class="toolbar">
+        <div class="seg" id="insight-period">
+          <button data-p="month" class="active">This month</button>
+          <button data-p="3m">3 months</button>
+          <button data-p="12m">12 months</button>
+          <button data-p="all">All</button>
+        </div>
+      </div>
+      <div id="insights-body" class="stack"></div>
+    </section>
+
+    <!-- ================= IMPORT ================= -->
+    <section class="tab stack" id="tab-import" data-tab="import">
+      <div class="card">
+        <h2>Import a PNB statement</h2>
+        <ol class="steps">
+          <li>PNB One → <b>Account Services</b> → <b>Download Statement</b> → choose <b>Excel</b>.</li>
+          <li>Pick up to <b>3 months</b> per file: PNB One stops at 500 transactions and silently drops older rows. For a year, download 4 files. Overlaps are fine.</li>
+          <li>Drop the file here. It is password-protected; the password is usually your full account number. Decryption happens on this device.</li>
+        </ol>
+      </div>
+      <label class="drop" id="drop">
+        <input type="file" id="file-input" accept=".xls,.xlsx,.csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv">
+        <div><b>Tap to choose a statement</b> or drop it here</div>
+        <div class="small muted">.xls · .xlsx · .csv — PNB One, netbanking, or any bank</div>
+      </label>
+      <div id="import-status"></div>
+      <div id="import-preview" class="stack"></div>
+      <div class="card">
+        <div class="card-head"><h2>Import history</h2><button class="btn small" id="undo-import" hidden>Undo last import</button></div>
+        <div id="import-history" class="small"></div>
+      </div>
+    </section>
+
+    <!-- ================= SETTINGS ================= -->
+    <section class="tab stack" id="tab-settings" data-tab="settings">
+      <div class="card stack">
+        <h2>Budget & alerts</h2>
+        <label class="field">Monthly budget for day-to-day spend (₹, optional)
+          <input type="number" id="set-budget" min="0" step="100" placeholder="e.g. 20000">
+        </label>
+        <p class="fine">Without a budget, this month is compared with the average of your last 3 full months. Today is always compared with your trailing 30-day average.</p>
+        <label class="check"><input type="checkbox" id="set-notify"> Show a browser notification when I open the app in Danger</label>
+      </div>
+      <div class="card stack">
+        <h2>What counts as day-to-day spend</h2>
+        <p class="fine">Unticked categories are treated as fixed commitments: shown separately, never in averages or alerts.</p>
+        <div id="set-categories"></div>
+      </div>
+      <div class="card stack">
+        <h2>Your own accounts</h2>
+        <label class="field">Your name as printed on the statement
+          <input type="text" id="set-ownname" placeholder="Auto-filled from the statement">
+        </label>
+        <label class="field">Your other UPI IDs (comma separated) — payments to these count as self-transfers
+          <input type="text" id="set-ownvpas" placeholder="name@okhdfcbank, 98765xxxxx@ybl">
+        </label>
+      </div>
+      <div class="card stack">
+        <h2>Backup</h2>
+        <p class="fine" id="backup-note"></p>
+        <div class="toolbar">
+          <button class="btn" id="backup-export">Download backup (JSON)</button>
+          <label class="btn">Restore backup <input type="file" id="backup-import" accept="application/json,.json" hidden></label>
+          <button class="btn danger" id="clear-data">Clear all data</button>
+        </div>
+      </div>
+      <div class="card stack small muted">
+        <p>All data lives in this browser only. Nothing is sent anywhere. Statement passwords are used once and not stored unless you tick "remember".</p>
+        <p>Categories and payment channels are guessed from the bank narration; PNB cuts payee names to 8 characters, so tag people and small shops once and the app remembers.</p>
+        <p id="about-version"></p>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar" id="tabbar">
+    <button data-tab="home" class="active"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+    <button data-tab="history"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>History</button>
+    <button data-tab="insights"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Insights</button>
+    <button data-tab="import"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>Import</button>
+    <button data-tab="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</button>
+  </nav>
+
+  <!-- password dialog -->
+  <dialog id="dlg-password">
+    <form class="dlg" method="dialog">
+      <h2>Statement password</h2>
+      <p class="small muted">This file is password-protected. For PNB One the password is usually your full account number. It is used on this device only.</p>
+      <label class="field">Password <input type="password" id="pw-input" autocomplete="off" required></label>
+      <label class="check"><input type="checkbox" id="pw-remember"> Remember on this device</label>
+      <div id="pw-error" class="notice bad" hidden></div>
+      <div class="actions"><button class="btn" value="cancel" type="button" id="pw-cancel">Cancel</button><button class="btn primary" value="ok">Open</button></div>
+    </form>
+  </dialog>
+
+  <!-- edit transaction -->
+  <dialog id="dlg-edit">
+    <form class="dlg" method="dialog">
+      <h2 id="edit-title">Edit</h2>
+      <div class="kv" id="edit-kv"></div>
+      <label class="field" style="margin-top:12px">Category <select id="edit-cat"></select></label>
+      <label class="check"><input type="checkbox" id="edit-apply-all" checked> Apply to every payment to this payee</label>
+      <label class="check"><input type="checkbox" id="edit-exclude"> Exclude from spending totals</label>
+      <label class="field">Note <input type="text" id="edit-note" placeholder="optional"></label>
+      <div class="actions">
+        <button class="btn danger" type="button" id="edit-delete">Delete</button>
+        <span style="flex:1"></span>
+        <button class="btn" value="cancel" type="button" id="edit-cancel">Cancel</button>
+        <button class="btn primary" value="ok">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- manual add -->
+  <dialog id="dlg-add">
+    <form class="dlg" method="dialog">
+      <h2>Add an expense</h2>
+      <div class="field-row">
+        <label class="field">Amount (₹) <input type="number" id="add-amount" min="0.01" step="0.01" required inputmode="decimal"></label>
+        <label class="field">Date <input type="date" id="add-date" required></label>
+      </div>
+      <label class="field">Paid to <input type="text" id="add-payee" required placeholder="e.g. Chai stall"></label>
+      <label class="field">Category <select id="add-cat"></select></label>
+      <label class="field">Note <input type="text" id="add-note" placeholder="optional"></label>
+      <div id="add-warn" class="notice warn" hidden></div>
+      <div class="actions"><button class="btn" type="button" id="add-cancel">Cancel</button><button class="btn primary" value="ok">Add</button></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+  <script>
+    // SheetJS: prefer the current release from the vendor CDN, fall back to the last cdnjs build.
+    window.__xlsxReady = new Promise(function (resolve) {
+      function done() { resolve(window.XLSX || null); }
+      var s = document.createElement('script');
+      s.src = 'https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js';
+      s.onload = done;
+      s.onerror = function () {
+        var f = document.createElement('script');
+        f.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+        f.onload = done; f.onerror = done;
+        document.head.appendChild(f);
+      };
+      document.head.appendChild(s);
+    });
+  </script>
+  <script src="cfb-decrypt.js?v=2"></script>
+  <script src="parsers.js?v=2"></script>
+  <script src="metrics.js?v=2"></script>
+  <script src="app.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="112" fill="#1f4fd8"/>
+  <path d="M120 352 L200 236 L268 300 L392 152" fill="none" stroke="#ffffff" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M320 152 H392 V224" fill="none" stroke="#ffffff" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="256" y="440" text-anchor="middle" font-family="Poppins, Segoe UI, Arial, sans-serif" font-weight="700" font-size="88" fill="#ffffff">₹</text>
+</svg>
